@@ -12,9 +12,11 @@ const errorHandler = require('./middleware/errorHandler');
 const app = express();
 
 // Connect to MongoDB
-connectDB();
-
 // Middleware
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
