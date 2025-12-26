@@ -99,8 +99,8 @@ export default function DashboardPage() {
         })}
       </div>
 
-      <div className="grid gap-4 md:grid-cols-1">
-        <Card className="">
+      <div className="grid gap-4 md:grid-cols-1 min-w-0">
+        <Card className="min-w-0">
           <CardHeader>
             <CardTitle>Recent Documents</CardTitle>
           </CardHeader>
