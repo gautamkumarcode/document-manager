@@ -17,7 +17,15 @@ app.use(async (req, res, next) => {
   await connectDB();
   next();
 });
-app.use(cors());
+
+// CORS configuration - allow credentials and specific origin
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

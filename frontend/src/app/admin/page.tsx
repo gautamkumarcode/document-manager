@@ -76,7 +76,7 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+      <h1 className="text-3xl font-bold text-foreground">
         Dashboard Overview
       </h1>
       

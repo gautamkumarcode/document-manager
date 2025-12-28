@@ -9,13 +9,16 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Configure Cloudinary storage for Multer
+// Simple Cloudinary storage configuration
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  params: {
-    folder: 'documents', // Folder name in Cloudinary
-    resource_type: 'auto', // Automatically detect file type
-    allowed_formats: ['jpg', 'jpeg', 'png', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt'],
+  params: async (req, file) => {
+    return {
+      folder: 'documents',
+      resource_type: 'raw', // Use 'raw' for all non-image files
+      public_id: `${Date.now()}-${file.originalname.split('.')[0]}`,
+      allowed_formats: ['jpg', 'jpeg', 'png', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt'],
+    };
   },
 });
 

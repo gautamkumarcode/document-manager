@@ -15,9 +15,11 @@ import { Bell } from "lucide-react";
 import { MobileSidebar } from "@/components/admin/MobileSidebar";
 
 import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 export function Header() {
   const { user, logout } = useAuth();
+  const router =useRouter()
 
   const getInitials = (name: string) => {
     return name
@@ -29,10 +31,10 @@ export function Header() {
   };
 
   return (
-    <header className="flex h-16 items-center justify-between border-b px-6 bg-white dark:bg-slate-950">
+    <header className="flex h-16 items-center justify-between border-b px-6 bg-background">
       <div className="flex items-center gap-4">
         <MobileSidebar />
-        <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-200">
+        <h2 className="text-lg font-semibold text-foreground">
           Dashboard
         </h2>
       </div>
@@ -60,8 +62,8 @@ export function Header() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Settings</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => router.push("/admin/profile")}>Profile</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => router.push("/admin/settings")}>Settings</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="text-red-600" onClick={logout}>
               Log out

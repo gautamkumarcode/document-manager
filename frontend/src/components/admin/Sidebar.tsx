@@ -8,7 +8,8 @@ import {
   FolderTree,
   LayoutDashboard,
   LogOut,
-  Users
+  User,
+  Users,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -34,6 +35,11 @@ const sidebarItems = [
     href: "/admin/users",
     icon: Users,
   },
+  {
+    title: "Profile",
+    href: "/admin/profile",
+    icon: User,
+  },
 ];
 
 export function Sidebar() {
@@ -41,9 +47,9 @@ export function Sidebar() {
   const { logout } = useAuth();
 
   return (
-    <div className="hidden md:flex flex-col h-full bg-slate-900 text-white w-64 border-r border-slate-800">
+    <div className="hidden md:flex flex-col h-full bg-sidebar text-sidebar-foreground w-64 border-r border-sidebar-border">
       <div className="p-6">
-        <h1 className="text-2xl font-bold tracking-tight text-emerald-400">
+        <h1 className="text-2xl font-bold tracking-tight text-sidebar-primary">
           AdminPanel
         </h1>
       </div>
@@ -58,14 +64,14 @@ export function Sidebar() {
               className={cn(
                 "flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group",
                 isActive
-                  ? "bg-emerald-500/10 text-emerald-400"
-                  : "hover:bg-slate-800 text-slate-400 hover:text-white"
+                  ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                  : "hover:bg-sidebar-accent/50 text-sidebar-foreground/70 hover:text-sidebar-foreground"
               )}
             >
               <Icon
                 className={cn(
                   "w-5 h-5 transition-colors",
-                  isActive ? "text-emerald-400" : "text-slate-500 group-hover:text-white"
+                  isActive ? "text-sidebar-primary" : "text-sidebar-foreground/70 group-hover:text-sidebar-foreground"
                 )}
               />
               <span className="font-medium">{item.title}</span>
@@ -73,10 +79,10 @@ export function Sidebar() {
           );
         })}
       </nav>
-      <div className="p-4 border-t border-slate-800">
+      <div className="p-4 border-t border-sidebar-border">
         <Button
           variant="ghost"
-          className="w-full justify-start gap-3 text-slate-400 hover:text-red-400 hover:bg-red-950/30"
+          className="w-full justify-start gap-3 text-sidebar-foreground/70 hover:text-destructive hover:bg-destructive/10"
           onClick={logout}
         >
           <LogOut className="w-5 h-5" />

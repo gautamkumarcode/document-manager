@@ -33,6 +33,16 @@ export const authService = {
     return response.data.data;
   },
 
+  updateProfile: async (data: Partial<User>) => {
+    const response = await api.put<{ success: boolean; data: User; message: string }>("/auth/profile", data);
+    return response.data;
+  },
+
+  updatePassword: async (data: any) => {
+    const response = await api.put("/auth/updatepassword", data);
+    return response.data;
+  },
+
   logout: () => {
     // Backend doesn't have a logout endpoint usually for JWT, just clear client side
     // If backend has one, call it here.

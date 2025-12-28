@@ -14,35 +14,37 @@ const protect = async (req, res, next) => {
 
   // Check if token exists
   if (!token) {
-    return res.status(401).json({
-      success: false,
-      message: 'Not authorized to access this route. Please login.',
-    });
-  }
+		console.log("No token found. Headers:", req.headers.authorization);
+		return res.status(401).json({
+			success: false,
+			message: "Not authorized to access this route. Please login.",
+		});
+	}
 
-  try {
-    // Verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+	try {
+		// Verify token
+		const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Get user from token (exclude password)
-    req.user = await User.findById(decoded.id).select('-password');
+		// Get user from token (exclude password)
+		req.user = await User.findById(decoded.id).select("-password");
 
-    if (!req.user) {
-      return res.status(401).json({
-        success: false,
-        message: 'User not found',
-      });
-    }
+		if (!req.user) {
+			console.log("User not found for token:", decoded.id);
+			return res.status(401).json({
+				success: false,
+				message: "User not found",
+			});
+		}
 
-    next();
-  } catch (error) {
-    console.error('Auth error:', error);
-    return res.status(401).json({
-      success: false,
-      message: 'Not authorized, token failed',
-      error: error.message,
-    });
-  }
+		next();
+	} catch (error) {
+		console.error("Auth error:", error.message);
+		return res.status(401).json({
+			success: false,
+			message: "Not authorized, token failed",
+			error: error.message,
+		});
+	}
 };
 
 module.exports = { protect };

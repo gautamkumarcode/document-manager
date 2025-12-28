@@ -1,0 +1,43 @@
+// ALTERNATIVE VERSION: Use this if you need signed URLs with authentication
+// Replace the import section and add this function:
+
+const Document = require('../models/Document');
+const cloudinary = require('cloudinary').v2;
+
+/**
+ * Generate a signed URL with expiration for secure access
+ * @param {string} publicId - The Cloudinary public ID
+ * @param {string} fileType - The MIME type of the file
+ * @param {string} fileUrl - The original file URL
+ * @returns {string} - Signed URL with expiration
+ */
+const getSignedUrl = (publicId, fileType, fileUrl) => {
+  try {
+    // Determine resource type based on file type
+    let resourceType = 'raw';
+    
+    if (fileType.startsWith('image/')) {
+      resourceType = 'image';
+    } else if (fileType === 'application/pdf') {
+      // PDFs can be served as 'image' for preview or 'raw' for download
+      resourceType = 'image';
+    }
+
+    // Generate signed URL with 1 hour expiration
+    const signedUrl = cloudinary.utils.private_download_url(publicId, '', {
+      resource_type: resourceType,
+      expires_at: Math.floor(Date.now() / 1000) + 3600, // 1 hour from now
+    });
+
+    return signedUrl;
+  } catch (error) {
+    console.error('Error generating signed URL:', error);
+    // Fallback to original URL if signing fails
+    return fileUrl;
+  }
+};
+
+// Then in your endpoints, use:
+// const docObj = doc.toObject();
+// docObj.fileUrl = getSignedUrl(doc.publicId, doc.fileType, doc.fileUrl);
+// return docObj;

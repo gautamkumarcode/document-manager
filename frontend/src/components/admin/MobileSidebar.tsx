@@ -16,6 +16,7 @@ import {
   LayoutDashboard,
   LogOut,
   Menu,
+  User,
   Users,
 } from "lucide-react";
 import Link from "next/link";
@@ -43,6 +44,11 @@ const sidebarItems = [
     href: "/admin/users",
     icon: Users,
   },
+  {
+    title: "Profile",
+    href: "/admin/profile",
+    icon: User,
+  },
 ];
 
 export function MobileSidebar() {
@@ -58,9 +64,9 @@ export function MobileSidebar() {
           <span className="sr-only">Toggle Menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="p-0 w-72 bg-slate-900 border-r-slate-800 text-white">
+      <SheetContent side="left" className="p-0 w-72 bg-sidebar border-sidebar-border text-sidebar-foreground">
         <SheetHeader className="p-6 text-left">
-          <SheetTitle className="text-2xl font-bold tracking-tight text-emerald-400">
+          <SheetTitle className="text-2xl font-bold tracking-tight text-sidebar-primary">
             AdminPanel
           </SheetTitle>
         </SheetHeader>
@@ -77,16 +83,16 @@ export function MobileSidebar() {
                   className={cn(
                     "flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group",
                     isActive
-                      ? "bg-emerald-500/10 text-emerald-400"
-                      : "hover:bg-slate-800 text-slate-400 hover:text-white"
+                      ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                      : "hover:bg-sidebar-accent/50 text-sidebar-foreground/70 hover:text-sidebar-foreground"
                   )}
                 >
                   <Icon
                     className={cn(
                       "w-5 h-5 transition-colors",
                       isActive
-                        ? "text-emerald-400"
-                        : "text-slate-500 group-hover:text-white"
+                        ? "text-sidebar-primary"
+                        : "text-sidebar-foreground/70 group-hover:text-sidebar-foreground"
                     )}
                   />
                   <span className="font-medium">{item.title}</span>
@@ -94,10 +100,10 @@ export function MobileSidebar() {
               );
             })}
           </nav>
-          <div className="p-4 border-t border-slate-800 mb-6">
+          <div className="p-4 border-t border-sidebar-border mb-6">
             <Button
               variant="ghost"
-              className="w-full justify-start gap-3 text-slate-400 hover:text-red-400 hover:bg-red-950/30"
+              className="w-full justify-start gap-3 text-sidebar-foreground/70 hover:text-destructive hover:bg-destructive/10"
               onClick={() => {
                 setOpen(false);
                 logout();
